@@ -13,20 +13,14 @@
     const videoUrl = urlParams.get('video');
 
     if (videoUrl) {
-        const rawUrl = videoUrl.replace(/^https?:\/\//, '');
         
-        
-        const isHttps = videoUrl.startsWith('https');
-        const scheme = isHttps ? 'https' : 'http';
-
-        
-        const intentLink = `intent://${rawUrl}#Intent;scheme=${scheme};package=com.mxtech.videoplayer.ad;end`;
+        const vlcLink = `vlc://${videoUrl}`;;
 
     
-        window.location.href = intentLink;
+        window.location.href = vlcLink;
 
         
-        document.body.innerHTML = `<a href="${intentLink}" style="font-size:24px;">Нажми здесь, чтобы запустить плеер</a>`;
+        document.body.innerHTML = `<a href="${vlcLink}" style="font-size:24px;">Нажми здесь, чтобы запустить плеер</a>`;
     }
 </script>
 </body>
