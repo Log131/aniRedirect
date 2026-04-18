@@ -2,14 +2,29 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Запуск видео...</title>
+    <title>Переход к видео...</title>
 </head>
 <body>
-    <p>Если плеер не открылся автоматически, <a href="intent://cache.libria.fun/videos/media/ts/433/1/720/947937761f7f00167ba3fe587581fc29.m3u8?clientIp=93.170.11.23&isWithAds=1&countryIso=UZ&isAuthorized=0#Intent;scheme=https;end">нажмите сюда</a>.</p>
+    <div id="status">Загрузка плеера...</div>
 
     <script>
-        // Скрипт пытается автоматически перенаправить в MX Player сразу при загрузке страницы
-        window.location.href = "intent://cache.libria.fun/videos/media/ts/433/1/720/947937761f7f00167ba3fe587581fc29.m3u8?clientIp=93.170.11.23&isWithAds=1&countryIso=UZ&isAuthorized=0#Intent;scheme=https;end";
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('video');
+
+        if (videoUrl) {
+            const cleanUrl = videoUrl.replace(/^https?:\/\//, '');
+            
+            const intentLink = `intent://${cleanUrl}#Intent;scheme=https;end`;
+
+            // Выполняем редирект
+            window.location.href = intentLink;
+
+            document.getElementById('status').innerHTML = 
+                `<a href="${intentLink}">Нажмите здесь, чтобы открыть плеер</a>`;
+        } else {
+            document.getElementById('status').innerText = "Ошибка: Ссылка на видео не найдена.";
+        }
     </script>
 </body>
 </html>
+
