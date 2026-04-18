@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,24 +8,28 @@
 <body>
     <div id="status">Загрузка плеера...</div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const videoUrl = urlParams.get('video');
+   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoUrl = urlParams.get('video');
 
-        if (videoUrl) {
-            const cleanUrl = videoUrl.replace(/^https?:\/\//, '');
-            
-            const intentLink = `intent://${cleanUrl}#Intent;scheme=https;end`;
+    if (videoUrl) {
+        const rawUrl = videoUrl.replace(/^https?:\/\//, '');
+        
+        
+        const isHttps = videoUrl.startsWith('https');
+        const scheme = isHttps ? 'https' : 'http';
 
-            // Выполняем редирект
-            window.location.href = intentLink;
+        
+        const intentLink = `intent://${rawUrl}#Intent;scheme=${scheme};end`;
 
-            document.getElementById('status').innerHTML = 
-                `<a href="${intentLink}">Нажмите здесь, чтобы открыть плеер</a>`;
-        } else {
-            document.getElementById('status').innerText = "Ошибка: Ссылка на видео не найдена.";
-        }
-    </script>
+    
+        window.location.href = intentLink;
+
+        
+        document.body.innerHTML = `<a href="${intentLink}" style="font-size:24px;">Нажми здесь, чтобы запустить плеер</a>`;
+    }
+</script>
 </body>
 </html>
+
 
