@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Динамический Видео Плеер</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .video-wrapper {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #000;
+            display: none; /* Скрыто по умолчанию, пока нет ссылки */
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+        .error-message {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px dashed #555;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="title">Видео плеер</h1>
+
+        <div id="videoWrapper" class="video-wrapper">
+            <video id="myPlayer" controls preload="metadata">
+                <source id="videoSource" src="" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            <h3>Видео не найдено</h3>
+            <p>Передайте ссылку на видео в URL. Пример:<br> 
+            <code>https://ваш-ник.github.io/?v=https://example.com/video.mp4</code></p>
+        </div>
+    </div>
+
+    <script>
+        // Функция для получения query-параметров
+        function getVideoUrlFromQuery() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('v'); // Ищем параметр ?v=...
+        }
+
+        const videoUrl = getVideoUrlFromQuery();
+        const player = document.getElementById('myPlayer');
+        const source = document.getElementById('videoSource');
+        const wrapper = document.getElementById('videoWrapper');
+        const errorBlock = document.getElementById('errorMessage');
+
+        if (videoUrl) {
+            // Если параметр есть, убираем заглушку и включаем плеер
+            source.src = videoUrl;
+            errorBlock.style.display = 'none';
+            wrapper.style.display = 'block';
+            
+            // Перезагружаем плеер, чтобы он подтянул новый источник
+            player.load(); 
+        }
+    </script>
+
+</body>
+</html>
